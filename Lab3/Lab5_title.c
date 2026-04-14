@@ -1,38 +1,13 @@
 #include <stdlib.h>
-#include <stdio.h>
 #include "Lab5_title.h"
 
-
-
-double** allocate_matrix(int n) 
-{
-    double** matrix = (double**)malloc(n * sizeof(double*));
-    
-	for (i = 0; i < n; i++) 
-	{
-        matrix[i] = (double*)malloc(n * sizeof(double));
-    }
-    return matrix;
-}
-
-void matrix(double** matrix, int n) 
-{
-    for (i = 0; i < n; i++) 
-	{
-        free(matrix[i]);
-    }
-    free(matrix);
-}
-
-
-double** calculate(double** a, double** b, int n, char op) 
-{
+double** calculate(double** a, double** b, int n, char op) {
     double** res = (double**)malloc(n * sizeof(double*));
-    for ( i = 0; i < n; i++) 
+    for (int i = 0; i < n; i++) 
 	{
         res[i] = (double*)malloc(n * sizeof(double));
     }
- 
+
     for (i = 0; i < n; i++) 
 	{
         for (j = 0; j < n; j++) 

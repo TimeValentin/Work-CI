@@ -1,18 +1,44 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Lab5_title.h"
 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
-int i, j, k;
+double* allocateMatrix(int n);
+double* calculateMatrix(double* A, double* B, int n, char op);
+
 void printMatrix(double* M, int n) 
 {
-    for ( i = 0; i < n; i++) 
+    for (i = 0; i < n; i++) 
 	{
         for ( j = 0; j < n; j++) 
 		printf("%.2f\t", M[i * n + j]);
         printf("\n");
     }
 }
+
+double** allocate_matrix(int n) 
+{
+    double** matrix = (double**)malloc(n * sizeof(double*));
+    
+	for (i = 0; i < n; i++) 
+	{
+        matrix[i] = (double*)malloc(n * sizeof(double));
+    }
+    return matrix;
+}
+
+void free_matrix(double** matrix, int n) 
+{
+    for (i = 0; i < n; i++) 
+	{
+        free(matrix[i]);
+    }
+    free(matrix);
+}
+
+
+
+
+
 
 int main(int argc, char *argv[]) 
 {
@@ -26,9 +52,9 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    double** A = allocate_matrix (n);
-    double** B = allocate_matrix (n);
-    double** C = allocate_matrix (n);
+    double** A = allocate_matrix(n);
+    double** B = allocate_matrix(n);
+    double** C = allocate_matrix(n);
 
     printf("Матрица A (%dx%d):\n", n, n);
     for (i = 0; i < n; i++) 
