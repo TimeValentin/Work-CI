@@ -82,25 +82,27 @@ int main()
         fclose(file);
         printf("Все работает %d\n", count);
     } 
-    else if (choice == 1) // Исправлена логика ветвления
+    else if (choice == 1) // Это я постоянно забываю Надо узнать
     {
-        printf("Введите количество людей: ");
+        printf("Введите сколько людей: ");
         if (scanf("%d", &count) != 1 || count <= 0) 
         {
             printf("Некорректное количество.\n");
             return 1;
         }
 
-        source = (struct human *)malloc(count * sizeof(struct human));
-        sorted = (struct human *)malloc(count * sizeof(struct human));
+        source = (struct human *)
+		malloc(count * sizeof(struct human));
+        sorted = (struct human *)
+		malloc(count * sizeof(struct human));
         
         if (source == NULL || sorted == NULL) {
-            printf("Ошибка выделения памяти!\n");
+            printf("Ошибка в памяти\n");
             return 1;
         }
 
         printf("Введите Имя, Фамилию и Год рождения для %d человек:\n", count);
-        for (i = 0; i < count; i++) // Вместо жесткого лимита 4 теперь используется count
+        for (i = 0; i < count; i++) 
         {
             printf("Человек %d: ", i + 1);
             scanf("%49s %49s %d", source[i].name, source[i].surname, &source[i].year);
@@ -144,7 +146,7 @@ int main()
 
     return 0;
 }
-} 
+ 
     
     /*FILE *file = fopen("Надо будет создать и написать.txt", "r");
     if (file == NULL) 
@@ -184,4 +186,8 @@ int main()
     printf("%d. %-5s. %-5s. — %d год\n", i + 1, sorted[i].name, sorted[i].surname, sorted[i].year);
     }
     return 0;
+    
+    
+    
+    
 }*/
