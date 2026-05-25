@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <locale.h>
+#include <windows.h>
 
 /*
 Реализовать программу-калькулятор с 
@@ -16,11 +16,14 @@
 
 int main() 
 {
-	setlocale(LC_ALL, "Rus");
+	//setlocale(LC_ALL, "Rus");
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
     char buffer[100];
     int j = 0;
     int i;
-    char *token; 
+    char *token;
+ 
     
     printf("Введите ваше выражение: ");
     if (fgets(buffer, 100, stdin) == NULL) 
