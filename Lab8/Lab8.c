@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define FILNAME "name.txt"
+#include <windows.h>
+
 /* 
 Создать текстовый файл с записями, 
 включающие имя/фамилию человека, 
@@ -16,50 +17,153 @@
 задавать несколько полей для упорядочивания.
 */
 
-typedef struct
+struct humen
 {
-	char name [256];
-	char lastname[256];
-	int year;
-	char gender;
-	float height;
-} Person;
+	char name[25];
+	char lastname[25];
+	int years;
+	char pol[5];
+	float rost;
+};
 
-int num_poligon =0;
-int i;
-
-int compare_tabl (const void *a, const void *b)
+int main(int argc, char *argv[]) 
 {
-	Person *p1 = (Person*)a;
-	Person *p2 = (Person*)b;
 	
-	for (i = 0; i < num_poligon; i++) 
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+	int n = 0;
+	int i = 0, j = 0, f = 0;
+	int qwer;
+	int num_fields;
+	int fields[10];
+	
+	int lines = 0;
+	char ch;
+	
+	printf("Выбор номера 1 - 4: ");
+	scanf("%d", &num_fields);
+	
+	for(i = 0; i < num_fields; i++)
 	{
-    int res = 0;
-    switch (priorities[i]) 
+		printf("Народ (1-Годочки, 2-Имя, 3-Рост, 4-ПолГендер): ");
+		scanf("%d", &fields[i]);
+	}
+	
+	FILE *file;
+	
+	file = fopen("name.txt","r");
+	if(file == NULL)
 	{
-        case 1: res = strcmp(p1->name, p2->name); 
-		break;
-        case 2: res = strcmp(p1->lastname, p2->lastname); 
-		break;
-        case 3: res = p1->year - p2->year; 
-		break;
-        case 4: res = strcmp(p1->gender, p2->gender); 
-		break;
-        case 5: res = (p1->height > p2->height) - (p1->height < p2->height); 
-		break;
-    }
-    if (res != 0) return res; 
- } 
-	return 0;
+		printf("Ошибка!1.");
+		return 1;
+	}
+	
+	while((ch = fgetc(file)) != EOF)
+	{
+		if (ch == '\n') 
+		lines++;
+	}
+	
+	lines++;
+	n = lines;
+	
+	rewind(file);
+	
+	struct humen *arr1 = malloc(n * sizeof(struct humen));
+	struct humen *arr2 = malloc(n * sizeof(struct humen));
+	struct humen temp;
+    
+	for (i = 0; i < n; i++)
+	{
+		fscanf(file, "%s %s %d %s %f", 
+		arr1[i].lastname, 
+		arr1[i].name,
+		&arr1[i].years, 
+		arr1[i].pol, 
+		&arr1[i].rost);
+	}
+	
+	fclose(file);
+	
+	memcpy(arr2, arr1,n * sizeof(struct humen)); 
+	
+	printf("Сортировка по дате:\n");
+	for (i = 0; i < n; i++)
+	{
+		printf("Фамилия/Имя: %s %s, Годочки: %d. Пол: %s. Рост: %.2f\n",
+		arr1[i].name, 
+		arr1[i].lastname,
+		arr1[i].years, 
+		arr1[i].pol, 
+		arr1[i].rost);
+	}
+	
+	for (i = 0; i < n - 1; i++)
+	{
+       	for (j = 0; j < n - 1 - i; j++)
+		   {
+       		
+       		for(f = 0; f <num_fields; f++)
+			   {	
+				   switch (fields[f])
+				   {
+       					case 1:
+							if (arr2[j].years > arr2[j + 1].years)
+							{
+	            				temp = arr2[j];
+	               				arr2[j] = arr2[j + 1];
+	               				arr2[j + 1] = temp;
+					};
+					break;
+				
+				case 2:
+					if(strcmp(arr2[j].name, arr2[j + 1].name) > 0)
+					{
+           				temp = arr2[j];
+               			arr2[j] = arr2[j + 1];
+               			arr2[j + 1] = temp;
+					};
+					break;
+					
+				case 3:
+					if(arr2[j].rost > arr2[j + 1].rost)
+					{
+            			temp = arr2[j];
+               			arr2[j] = arr2[j + 1];
+               			arr2[j + 1] = temp;
+					};
+					break;
+					
+				case 4:
+					if(strcmp(arr2[j].pol, arr2[j + 1].pol) > 0)
+					{
+           				temp = arr2[j];
+               			arr2[j] = arr2[j + 1];
+               			arr2[j + 1] = temp;
+					};
+					break;
+					
+				
+				default: printf("idofjhxdbvxf");
+					return 1;
+					break; 
+			   }
+		}
+	}
 }
-
-
-
-
-int main() 
-{
-	FILE *file = fopen("name.txt", "r");
-
+       		
+       		
+	
+    printf("\Ввывод гсортировки по выбору 2:\n");
+	for (i = 0; i < n; i++)
+	{
+		printf("Фамилия/Имя: %s %s, Годочки: %d. Пол: %s. Рост: %.2f\n",
+		arr2[i].name, 
+		arr2[i].lastname,
+		arr2[i].years,
+		arr2[i].pol,
+		arr2[i].rost);
+	}
+	
 	return 0;
 }
