@@ -1,5 +1,8 @@
 #include <stdio.h>
-#include <stdlib.h>
+//#include <stdlib.h>
+#include <setjmp.h>
+#include <windows.h>
+//#include <locale.h>
 
 /*
 	Написать программу с использованием 
@@ -13,6 +16,39 @@
 	
 */
 
-int main(int argc, char *argv[]) {
-	return 0;
+jmp_buf env;
+ 
+void fib_sum(int n, long long a, long long b, long long *sum) 
+{
+	//setlocale(LC_ALL, "Rus");
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+    if (n <= 0) {
+        longjmp(env, 1);
+    }
+    printf("%lld; ", a);
+    *sum += a;
+    fib_sum(n - 1, b, a + b, sum);
+}
+ 
+int main() 
+{
+    int n, ret;
+    long long sum;
+
+    printf("Ввод количество: ");
+    scanf("%d", &n);
+
+    ret = setjmp(env);
+    if (ret == 0) 
+	{
+        sum = 0;
+        printf("Числовой порядок Фибоначи: ");
+        fib_sum(n, 1, 1, &sum);
+    } 
+	else 
+	{
+        printf("\nСумма чисел Фибоначи = %lld\n", sum);
+    }
+    return 0;
 }
