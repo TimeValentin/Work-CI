@@ -1,0 +1,132 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include "functionLab11.h"
+#include <windows.h>
+
+/*
+	Создать в отдельном модуле функции 
+	с переменным количеством аргументов, 
+	которая вычисляет их 
+	сумму, максимум, минимум, среднее арифметическое.
+*/
+
+int main() 
+{
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+	int count = 3; 
+    int n1, n2, n3; 
+    int a, b, c;
+    double d;
+    printf("Надо ввести числа");
+    if (scanf("%d %d %d", &n1, &n2, &n3) != 3) 
+	{
+        return 1;
+    }
+
+    a = sum(count, n1, n2, n3);
+    b = (max)(count, n1, n2, n3);
+    c = (min)(count, n1, n2, n3);
+    d = (average)(count, n1, n2, n3);
+
+    printf("Результат %d %d %d %.2lf\n", a, b, c, d);
+    return 0;
+}
+
+
+
+
+
+
+/*int main()
+{
+	int count = 3;
+	int a = sum(count, 1, 2, 3);
+	int b = max(count, 1, 2, 3);
+	int c = min(count, 1, 2, 3);
+	double d = average(count, 1, 2, 3);
+	printf("Результат %d %d %d %.2lf", a, b, c, d);
+	return 0;
+}
+*/
+
+#include <stdio.h>
+#include <stdarg.h>
+#include "functionLab11.h"
+
+int sum(int count, ...)
+{
+	int result = 0;
+	va_list arg;
+	va_start(arg, count);
+	int i;
+	for(i = 0; i < count; i++)
+	{
+		result += va_arg(arg, int);
+	}
+	va_end(arg);
+	return result;
+}
+
+int max(int count, ...)
+{
+	va_list arg;
+	va_start(arg, count);
+	int result = va_arg(arg, int);
+	int i;
+	for (i = 1; i < count; i++)
+	{
+		int a = va_arg(arg, int);
+		if (a > result)
+		{
+			result = a;
+		}
+	}
+	va_end(arg);
+	return result;
+}
+
+int min(int count, ...)
+{
+	va_list arg;
+	va_start(arg, count);
+	int result = va_arg(arg, int);
+	int i;
+	for (i = 1; i < count; i++)
+	{
+		int a = va_arg(arg, int);
+		if (a < result)
+		{
+			result = a;
+		}
+	}
+	va_end(arg);
+	return result;
+}
+
+double average(int count, ...)
+{
+	double summ = 0;
+	va_list arg;
+	va_start(arg, count);
+	int i;
+	for(i = 0; i < count; i++)
+	{
+		summ += va_arg(arg, int);
+	}
+	va_end(arg);
+	double result = summ/count;
+	return result;
+}
+
+#ifndef F_H
+#define F_H
+
+int sum(int count, ...);
+int max(int count, ...);
+int min(int count, ...);
+double average(int count, ...);
+
+#endif
+
